@@ -15,7 +15,7 @@ from io import BytesIO
 from components.ui_components import (
     page_header, date_filter, metric_row,
     donut_chart, bar_chart, line_chart,
-    styled_table, csv_uploader,
+    styled_table, csv_uploader, require_data,
 )
 
 
@@ -47,6 +47,12 @@ COLORS_BAR = [BLUE, RED]
 df_pallets = load_pallets()
 df_cargas  = load_cargas()
 df_conferencia = load_conferencia()
+
+require_data({
+    "Listas (tab_orders.csv)": df_pallets,
+    "Cargas (tab_loads.csv)": df_cargas,
+    "Conferência (conf_registros.csv)": df_conferencia,
+})
 
 # ── Sidebar filters ───────────────────────────────────────────────────────
 # Use a single date picker for all charts (same period applied across datasets)

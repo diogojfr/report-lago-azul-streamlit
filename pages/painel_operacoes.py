@@ -10,7 +10,7 @@ from io import BytesIO
 from components.ui_components import (
     page_header, date_filter, metric_row,
     donut_chart, bar_chart, line_chart,
-    styled_table, csv_uploader,
+    styled_table, csv_uploader, require_data,
 )
 
 
@@ -45,6 +45,12 @@ df_conferencia = load_conferencia()
 df_operacaoes = load_duracao_operacao()
 df_horas_trabalhadas = load_horas_trabalhadas()
 df_op_perfil = load_op_perfil()
+
+require_data({
+    "Duração das operações (tab_duracao_operacao.csv)": df_operacaoes,
+    "Horas trabalhadas (tab_horas_trabalhadas.csv)": df_horas_trabalhadas,
+    "Operação por perfil (tab_op_perfil.csv)": df_op_perfil,
+})
 
 # ── Sidebar filters ───────────────────────────────────────────────────────
 # Use a single date picker for all charts (same period applied across datasets)

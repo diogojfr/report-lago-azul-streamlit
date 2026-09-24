@@ -3,6 +3,7 @@
 __pycache__/
 *.pyc
 .env
+.gitkeep
 # dados operacionais nao vao para o repo
-data/*.csv
-!data/.gitkeep
+# data/*.csv
+# !data/.gitkeep

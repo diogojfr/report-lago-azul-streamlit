@@ -12,7 +12,7 @@ from io import BytesIO
 
 from components.ui_components import (
     page_header, date_filter, metric_row,
-    bar_chart, line_chart, donut_chart, styled_table, csv_uploader,
+    bar_chart, line_chart, donut_chart, styled_table, csv_uploader, require_data,
 )
 
 def _df_to_excel_bytes(df: pd.DataFrame) -> bytes:
@@ -45,6 +45,12 @@ df_caixa_hora = load_caixa_hora()
 df_montagem_transporte = load_montagem_transporte()
 df_erros = load_erros()
 df_erros_dia = load_erros_dia()
+
+require_data({
+    "Listas (tab_orders.csv)": df_pallets,
+    "Erros (tab_errors.csv)": df_erros,
+    "Erros por dia (tab_erros_dia.csv)": df_erros_dia,
+})
 
 # ── Sidebar filters ───────────────────────────────────────────────────────
 # Use a single date picker for all charts (same period applied across datasets)

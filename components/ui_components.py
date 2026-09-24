@@ -20,6 +20,31 @@ BG       = "#ffffff"
 CHART_COLORS = [BLUE, RED, "#42a5f5", "#ffa726", "#ec407a", "#26c6da"]
 # CHART_COLORS = [RED, BLUE, "#42a5f5", "#ffa726", "#ec407a", "#26c6da"]
 
+# ── Guarda de dados ───────────────────────────────────────────────────────────
+def require_data(datasets: dict[str, pd.DataFrame]):
+    """Interrompe o painel com um aviso legivel quando faltam dados.
+
+    `load_csv` devolve um DataFrame vazio quando o CSV nao existe. Sem esta
+    guarda a pagina segue e quebra com um KeyError opaco na primeira coluna que
+    tocar — foi o que aconteceu no deploy, onde data/ sobe vazio.
+
+    datasets: {"rotulo (arquivo.csv)": df, ...}
+    """
+    faltando = [nome for nome, df in datasets.items() if df is None or df.empty]
+    if not faltando:
+        return
+
+    st.warning("Este painel não tem dados para exibir.")
+    st.markdown("Arquivos ausentes ou vazios em `data/`:")
+    for nome in faltando:
+        st.markdown(f"- `{nome}`")
+    st.caption(
+        "Coloque os CSVs em `data/` e recarregue a página. "
+        "No Streamlit Cloud eles não sobem pelo repositório (`data/*.csv` está no .gitignore)."
+    )
+    st.stop()
+
+
 # ── Header ────────────────────────────────────────────────────────────────────
 def page_header(title: str, period: tuple[date, date] | None = None):
     """Renders the top brand bar with title and optional period badge."""
